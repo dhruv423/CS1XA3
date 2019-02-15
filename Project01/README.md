@@ -2,11 +2,11 @@
 Bash and Git
 
 ### Usage
-Initiate a connection `(ssh)` to the server using your macID 
-`cd` into `/home/bhavsd1/CS1XA3/Project01`
-Run the script `./project_analyze.sh` using multiple features at once
-or `./project_analyze.sh help` will give you a list of available features
-Example: `./project_analyze.sh feature1...` 
+Initiate a connection `(ssh)` to the server using your macID   
+`cd` into `/home/bhavsd1/CS1XA3/Project01`  
+Run the script `./project_analyze.sh` using multiple features at once  
+or `./project_analyze.sh help` will give you a list of available features  
+Example: `./project_analyze.sh feature1...`   
 
 
 ### Features
