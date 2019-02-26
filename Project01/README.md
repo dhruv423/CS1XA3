@@ -33,6 +33,7 @@ Example: `./project_analyze.sh search-todo...`
   - Converts a specified amount of one currency to another currency
   - Prompted to enter in amount, base currency and desired currency (Enter currency shortform)
     > Which currency do you want to convert from? (eg. CAD, USD, EUR): 
+    
     > Which currency do you want to convert to?: 
     > How much do you want to convert?:
   - Gets current exchange rates using [Currency Converter API](https://www.currencyconverterapi.com)
