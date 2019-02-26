@@ -60,7 +60,7 @@ function convertCurrency() {
 
  read -p "How much do you want to convert?: " amount
  # Converting base currency to desired currency using python since bash does not support floating point arithmetic
- convertedA=$(python -c "print($exRate * $amount)")
+ convertedA=$(python -c "print(round($exRate * $amount, 2))")
 
  echo " "
  # Printing out the results
