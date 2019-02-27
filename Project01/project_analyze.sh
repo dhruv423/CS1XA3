@@ -19,7 +19,7 @@ function compileFile () {
  	  if [ $? != "0" ] ; then
 	    # Spacing out the erros for a cleaner look
 	    echo " " >> ./Project01/compile_fail.log
-	    echo "$file did not compile."
+	    tput setaf 1; echo "$file did not compile."
 	  else
 	    rm ${file}c  # Remove the .pyc file created if compiled successfully
 	  fi
@@ -66,7 +66,7 @@ function convertCurrency() {
  # Printing out the results
  echo "| Converting $baseCur to $toCur..."
  echo "| Rate: 1 $baseCur equals $exRate $toCur"
- echo "| $amount $baseCur equals $convertedA $toCur"
+ tput setaf 2; echo "| $amount $baseCur equals $convertedA $toCur"
  echo " "
 }
 
@@ -100,7 +100,7 @@ for com in "$@" ; do # Allows for multiple commands at once
  elif [ $com = compile-check ] ; then
 	echo "Running compile-check..."
 	compileFile # Creates compile_fail.log with names and errors of files that cannot compile
-	echo "Check compile_fail.log for information about the syntax errors" # Telling you where to see the results
+	tput setaf 2; echo "Check compile_fail.log for information about the syntax errors" # Telling you where to see the results
 
  elif [ $com = convert-cur ] ; then
 	convertCurrency # Runs the converting currency function
@@ -108,6 +108,6 @@ for com in "$@" ; do # Allows for multiple commands at once
  elif [ $com = help ] ; then # Listing the commands of all of the available features
 	printf "%s\n" "Available Features:" "search-todo" "file-count" "compile-check" "convert-cur"
  else # If inputed something other than the described features
-	echo "Sorry that feature does not exist"
+	tput setaf 1; echo "Sorry that feature does not exist"
  fi
 done
