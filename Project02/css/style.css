@@ -454,12 +454,14 @@ h1, h2, h3, h4, h5, h6, figure {
   background: rgba(53, 166, 222);
   font-size: 15px;
   border: 1px solid transparent;
+  text-decoration: none;
 }
 
 .genric-btn:hover {
     -webkit-transform: scale(1.1);
     -ms-transform: scale(1.);
     transform: scale(1.1);
+    text-decoration: none;
 }
 
 
@@ -850,14 +852,29 @@ h1, h2, h3, h4, h5, h6, figure {
 .work:hover .desc {
   opacity: 0.7;
   background: #bdc9df;
+  text-decoration: none;
 }
 .work:hover .desc h3 {
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
+  text-decoration: none;
+
 }
 .work:hover .desc span {
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
+  text-decoration: none;
+
+}
+
+#fh5co-footer {
+  padding: 50px 0;
+  float: left;
+  width: 100%;
+  text-align: center;
+}
+#fh5co-footer p:last-child {
+  margin-bottom: 0;
 }
 
 
