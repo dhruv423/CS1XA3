@@ -17,7 +17,6 @@ from django.contrib import admin
 from django.urls import path, include
 from django.http import HttpResponse
 
-root = 'e/bhavsd1/'
 urlpatterns = [
-    path(root, include('helloapp.urls')) ,
+    path('e/bhavsd1/', include('lab7app.urls')),
 ]
