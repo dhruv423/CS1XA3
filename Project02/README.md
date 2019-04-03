@@ -19,6 +19,7 @@ Create your own animations! [Try it out!](https://mac1xa3.ca/u/bhavsd1/simpleapp
 
 First, you will be prompted to Main Menu Screen, which will have 2 text fields. The first one is for the angle of the 
 rotation and the second one is for the increment of the position of the circles. *Tip: Keep the position increment low for better result*
+
 Then click **Start Animation** to begin!
 
 Once in the Animation screen, the circles are going to reach a fixed position and will keep spinning in that place. 
