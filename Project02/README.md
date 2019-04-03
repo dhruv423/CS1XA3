@@ -7,7 +7,7 @@ This website was inspired from Theme Wagon's [Profile](https://themewagon.com/th
 
 ### Key Features
 * Animate Box
-* Progress Bar
+* Progress Bar (for my Technical Skills)
 
 
 ## Interactive Elm Art: Elm App
