@@ -15,13 +15,14 @@ def add_user(request):
     passw = json_req.get('password','')
     
     if uname != '':
-        user = User.objects.create_user(username=uname,
-                                        password=passw)
-        login(request,user)
+        newUser = UserInfo.objects.create_user_info(username=uname,
+                                        password=passw, info = "info")
+        newUser.save()
+        login(request,newUser.user)
         return HttpResponse('LoggedIn')
 
     else:
-        return HttpResponse('LoggedOut')
+        return HttpResponse('RegisterFailed')
 
 
 def login_user(request):

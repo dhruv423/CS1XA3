@@ -41,36 +41,36 @@ init _ =
 -- View
 view : Model -> Html Msg
 view model = div []
-    [ node "link" [ rel "icon", type_ "image/png", href "images/icons/favicon.ico" ]
+    [ node "link" [ rel "icon", type_ "image/png", href "LoginFiles/images/icons/favicon.ico" ]
         []
-    , node "link" [ rel "stylesheet", type_ "text/css", href "vendor/bootstrap/css/bootstrap.min.css" ]
+    , node "link" [ rel "stylesheet", type_ "text/css", href "LoginFiles/vendor/bootstrap/css/bootstrap.min.css" ]
         []
-    , node "link" [ rel "stylesheet", type_ "text/css", href "fonts/font-awesome-4.7.0/css/font-awesome.min.css" ]
+    , node "link" [ rel "stylesheet", type_ "text/css", href "LoginFiles/fonts/font-awesome-4.7.0/css/font-awesome.min.css" ]
         []
-    , node "link" [ rel "stylesheet", type_ "text/css", href "fonts/iconic/css/material-design-iconic-font.min.css" ]
+    , node "link" [ rel "stylesheet", type_ "text/css", href "LoginFiles/fonts/iconic/css/material-design-iconic-font.min.css" ]
         []
-    , node "link" [ rel "stylesheet", type_ "text/css", href "vendor/animate/animate.css" ]
+    , node "link" [ rel "stylesheet", type_ "text/css", href "LoginFiles/vendor/animate/animate.css" ]
         []
-    , node "link" [ rel "stylesheet", type_ "text/css", href "vendor/css-hamburgers/hamburgers.min.css" ]
+    , node "link" [ rel "stylesheet", type_ "text/css", href "LoginFiles/vendor/css-hamburgers/hamburgers.min.css" ]
         []
-    , node "link" [ rel "stylesheet", type_ "text/css", href "vendor/animsition/css/animsition.min.css" ]
+    , node "link" [ rel "stylesheet", type_ "text/css", href "LoginFiles/vendor/animsition/css/animsition.min.css" ]
         []
-    , node "link" [ rel "stylesheet", type_ "text/css", href "css/util.css" ]
+    , node "link" [ rel "stylesheet", type_ "text/css", href "LoginFiles/css/util.css" ]
         []
-    , node "link" [ rel "stylesheet", type_ "text/css", href "css/main.css" ]
+    , node "link" [ rel "stylesheet", type_ "text/css", href "LoginFiles/css/main.css" ]
         []
     , div [ class "limiter" ]
          [ div [ class "container-login100" ]
             [ div [ class "wrap-login100" ]
                  [ div [ class "login100-form validate-form" ]
                      [ span [ class "login100-form-title p-b-26" ]
-                        [ text "Welcome" ]
+                        [ text "Welcome!" ]
                         , span [ class "login100-form-title p-b-48" ]
                         [ p []
                         [ text model.error ]
                         ]
                         , div [ class "wrap-input100 validate-input" ]
-                        [ viewInput "text" "Email" model.name NewName ]
+                        [ viewInput "text" "Username" model.name NewName ]
                         
                         , div [ class "wrap-input100 validate-input" ]
                         [ viewInput "password" "Password" model.password NewPassword ]
@@ -110,12 +110,17 @@ update msg model =
             ( { model | password = password }, Cmd.none )
 
         LoginButton ->
-            ( model, loginPost model )
+            if model.name == "" then
+                    ( { model | error = "Please enter in an Username" }, Cmd.none)
+            else if model.password == "" then
+                    ( { model | error = "Please enter in a Password" }, Cmd.none)
+            else
+                    ( model, loginPost model )
 
         GotLoginResponse result ->
             case result of
                 Ok "LoginFailed" ->
-                    ( { model | error = "Failed to Login" }, Cmd.none )
+                    ( { model | error = "Incorrect Login Credentials. Try Again" }, Cmd.none )
 
                 Ok _ ->
                     ( model, load ("https://google.ca") )
