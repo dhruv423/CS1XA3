@@ -74,6 +74,11 @@ body {
   outline: 0 !important;
 }
 
+
+.moveIcon.fa-user-circle {
+  margin-right: 400px;
+}
+
 hr {
   -webkit-box-sizing: content-box;
   box-sizing: content-box;
