@@ -136,7 +136,7 @@ update msg model =
                     ( { model | error = "Failed to Register" }, Cmd.none )
 
                 Ok _ ->
-                    ( model, load ("https://google.ca") )
+                    ( model, load ("index.html") )
 
                 Err error ->
                     ( handleError model error, Cmd.none )

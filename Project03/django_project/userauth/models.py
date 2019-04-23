@@ -13,9 +13,12 @@ class UserInfo(models.Model):
                                 on_delete=models.CASCADE,
                                 primary_key=True)
         
-    # Information
-    income = models.FloatField(blank = "True")
-    expense = models.FloatField(blank = "True")
-    expenseType = models.CharField(blank = "True")
+    # Information about User
+    income = models.FloatField(default=0)
+    expense = models.FloatField(default=0)
+    expenseType = models.CharField(max_length=60, blank = "True")
+    loanAmount = models.FloatField(default=0)
+    loanPeriod = models.FloatField(default=0)
+    loanInterest = models.FloatField(default=0)
                                 
     objects = UserInfoManager()

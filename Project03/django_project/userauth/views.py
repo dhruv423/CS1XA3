@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 import json
 from .models import UserInfo
 
@@ -15,16 +15,23 @@ def add_user(request):
     if uname != '':
         newUser = UserInfo.objects.create_user_info(username=uname,
                                         password=passw, info = "info")
+        user = authenticate(request, username=uname, password=passw)
         newUser.save()
-        login(request,newUser.user)
+        login(request,user)
+        print("LoggedIn")
         return HttpResponse('LoggedIn')
 
     else:
+        print("RegisterFailed")
         return HttpResponse('RegisterFailed')
 
-def save_user_profile(request):
-    
-
+def is_auth(request):
+    if request.user.is_authenticated:
+        print("IsAuth sent")
+        return HttpResponse("IsAuth")
+    else:
+        print("NotAuth sent")
+        return HttpResponse("NotAuth")
 
 
 def login_user(request):
@@ -42,15 +49,28 @@ def login_user(request):
     else:
         return HttpResponse('LoginFailed')
 
-def user_info(request):
-    """serves content that is only available to a logged in user"""
-    
+"""def user_info(request):
+    serves content that is only available to a logged in user
+    print(request.user)
     if not request.user.is_authenticated:
         return HttpResponse("LoggedOut")
     else:
+        print(request.user)
         # do something only a logged in user can do
-        return HttpResponse("Hello " + request.user.first_name)
+        return HttpResponse("Hello " + request.user.first_name)"""
 
 def logout_user(request):
     logout(request)
     return HttpResponse("LoggedOut")
+
+
+def get_user_info(request):
+    user = UserInfo.objects.get(user=request.user)
+    uInfo = {}
+    uInfo["income"] = user.income
+    uInfo["expense"] = user.expense
+    uInfo["expensetype"] = user.expenseType
+    uInfo["loanamount"] = user.loanAmount
+    uInfo["loanperiod"] = user.loanPeriod
+    uInfo["loaninterest"] = user.loanInterest
+    return JsonResponse(uInfo)

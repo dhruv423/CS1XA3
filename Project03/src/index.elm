@@ -20,27 +20,112 @@ rootUrl =
 
 -- Model 
 type alias Model =  
-    { name : String, password : String, passwordC : String, error : String }
+    { pageL : Page, error : String, userInfo: UserInfo  }
 
+type Page = Overview
+    | ExpenseTracker
+    | LoanTracker
 
-type Msg = NewUser String -- Name text field changed
-    | NewPassword String -- Password text field changed
-    | NewPasswordC String -- Confirm Password field
-    | GotRegisterResponse (Result Http.Error String) -- Http Post Response Received
-    | RegisterButton -- Register Button Pressed
-
+type Msg = Show Page
+     | LogOut
+     | GetResponse (Result Http.Error String)
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { name = ""
-      , password = ""
-      , passwordC = ""
+    ( { pageL = Overview
       , error = ""
+      , userInfo  = { income = 0, expense = 0, expenseType = "Works from Elm", loanAmount = 0, loanPeriod = 0, loanInterest = 0}
       }
-    , Cmd.none
+    , getAuth
     )
 
--- View
+type alias UserInfo = {
+        income : Float, 
+        expense : Float, 
+        expenseType : String,
+        loanAmount : Float, 
+        loanPeriod : Float, 
+        loanInterest : Float
+    }
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        Show page ->
+            ( { model | pageL = page }, Cmd.none )
+        
+        LogOut ->
+            (model, doLogOut)
+
+        GetResponse result ->
+            case result of
+                Ok "NotAuth" ->
+                    ( { model | error = "Not Authenticated" }, load "loginpage.html")
+                
+                Ok "LoggedOut" ->
+                    ( { model | error = "Logged Out"}, load "loginpage.html")
+
+                Ok "IsAuth" ->
+                    ( model, Cmd.none )
+                
+                Ok _ ->
+                    ( model, Cmd.none )
+
+                Err error ->
+                    ( handleError model error, Cmd.none )
+
+
+
+
+infoJsonD : JDecode.Decoder UserInfo  
+infoJsonD = 
+    JDecode.map6 UserInfo  
+        (JDecode.field "income" JDecode.float)
+        (JDecode.field "expense" JDecode.float)
+        (JDecode.field "expensetype" JDecode.string)
+        (JDecode.field "loanamount" JDecode.float)
+        (JDecode.field "loanperiod" JDecode.float)
+        (JDecode.field "loaninterest" JDecode.float)
+
+getAuth : Cmd Msg
+getAuth =
+    Http.get
+        { url = rootUrl ++ "userauth/isauth/"
+        , expect = Http.expectString GetResponse
+        }
+
+doLogOut : Cmd Msg
+doLogOut =
+    Http.get
+        { url = rootUrl ++ "userauth/logoutuser/"
+        , expect = Http.expectString GetResponse
+        }
+
+handleError : Model -> Http.Error -> Model
+handleError model error =
+    case error of
+        Http.BadUrl url ->
+            { model | error = "Bad URL: " ++ url }
+
+        Http.Timeout ->
+            { model | error = "Timeout" }
+
+        Http.NetworkError ->
+            { model | error = "Network Error" }
+
+        Http.BadStatus i ->
+            { model | error = "Bad Status " ++ String.fromInt i }
+
+        Http.BadBody body ->
+            { model | error = "Bad Body " ++ body }
+
+
+overviewView : Model -> Html msg 
+overviewView model = div [] [text (model.userInfo.expenseType)]
+
+
+
 view : Model -> Html Msg
 view model = div []
     [ node "link" [ href "SiteFiles/vendor/fontawesome-free/css/all.min.css", rel "stylesheet", type_ "text/css" ]
@@ -50,21 +135,20 @@ view model = div []
     , node "link" [ href "SiteFiles/css/sb-admin.css", rel "stylesheet" ]
         []
     , nav [ class "navbar navbar-expand navbar-dark bg-dark static-top" ]
-        [ a [ class "navbar-brand mr-1", href "index.html" ]
+        [ a [ class "navbar-brand mr-1", href "" ]
             [ text "FinTrack" ]
         , ul [ class "navbar-nav ml-auto ml-md-0" ]
             [ li [ class "nav-item no-arrow" ]
-                [ a [ attribute "aria-expanded" "false", attribute "aria-haspopup" "true", class "nav-link", attribute "data-toggle" "", href "#", attribute "role" "button" ]
-                    [ i [ class "fas fa-user-circle fa-fw" ]
-                        [ ]
-                    ]
+                [ a [ attribute "aria-expanded" "false", class "nav-link ",  attribute "role" "button", Events.onClick LogOut]
+                    [ text "Log Out"]
+                    
                 ]
             ]
         ]
     , div [ id "wrapper" ]
         [ ul [ class "sidebar navbar-nav" ]
-            [ li [ class "nav-item active" ]
-                [ a [ class "nav-link", href "index.html" ]
+            [ li [ class "nav-item " ]
+                [ a [ class "nav-link", href "" ]
                     [ i [ class "fas fa-fw fa-tachometer-alt" ]
                         []
                     , span []
@@ -72,27 +156,19 @@ view model = div []
                     ]
                 ]
             , li [ class "nav-item dropdown" ]
-                [ a [ class "nav-link", href "index.html" ]
+                [ a [ class "nav-link", href "" ]
                     [ i [ class "fas fa-fw fa-folder" ]
                         []
                     , span []
-                        [ text " Pages" ]
+                        [ text " Expense Tracker" ]
                     ]
                 ]
             , li [ class "nav-item" ]
-                [ a [ class "nav-link", href "charts.html" ]
+                [ a [ class "nav-link", href "" ]
                     [ i [ class "fas fa-fw fa-chart-area" ]
                         []
                     , span []
-                        [ text " Charts" ]
-                    ]
-                ]
-            , li [ class "nav-item" ]
-                [ a [ class "nav-link", href "tables.html" ]
-                    [ i [ class "fas fa-fw fa-table" ]
-                        []
-                    , span []
-                        [ text " Tables" ]
+                        [ text " Loan Tracker" ]
                     ]
                 ]
             ]
@@ -100,7 +176,7 @@ view model = div []
             [ div [ class "container-fluid" ]
                 [ ol [ class "breadcrumb" ]
                     [ li [ class "breadcrumb-item" ]
-                        [ a [ href "#" ]
+                        [ a [ ]
                             [ text "Dashboard" ]
                         ]
                     , li [ class "breadcrumb-item active" ]
@@ -138,7 +214,7 @@ view model = div []
                 [ div [ class "container my-auto" ]
                     [ div [ class "copyright text-center my-auto" ]
                         [ span []
-                            [ text "Copyright © FinTrack 2019" ]
+                            [ text (model.userInfo.expenseType) ]
                         ]
                     ]
                 ]
@@ -146,120 +222,7 @@ view model = div []
         , text "  "
         ]
     , text "  "
-    , div [ attribute "aria-hidden" "true", attribute "aria-labelledby" "exampleModalLabel", class "modal fade", id "logoutModal", attribute "role" "dialog", attribute "tabindex" "-1" ]
-        [ div [ class "modal-dialog", attribute "role" "document" ]
-            [ div [ class "modal-content" ]
-                [ div [ class "modal-header" ]
-                    [ h5 [ class "modal-title", id "exampleModalLabel" ]
-                        [ text "Ready to Leave?" ]
-                    , button [ attribute "aria-label" "Close", class "close", attribute "data-dismiss" "modal", type_ "button" ]
-                        [ span [ attribute "aria-hidden" "true" ]
-                            [ text "×" ]
-                        ]
-                    ]
-                , div [ class "modal-body" ]
-                    [ text "Select \"Logout\" below if you are ready to end your current session." ]
-                , div [ class "modal-footer" ]
-                    [ button [ class "btn btn-secondary", attribute "data-dismiss" "modal", type_ "button" ]
-                        [ text "Cancel" ]
-                    , a [ class "btn btn-primary", href "login.html" ]
-                        [ text "Logout" ]
-                    ]
-                ]
-            ]
-        ]
     ]
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        NewUser name ->
-            ( { model | name = name }, Cmd.none )
-
-        NewPassword password ->
-            ( { model | password = password }, Cmd.none )
-        
-        NewPasswordC password ->
-            ( { model | passwordC = password }, Cmd.none )
-
-        RegisterButton ->
-            if model.password == model.passwordC && model.password /= "" then
-                    ( model, loginPost model )
-            else if model.name == "" then
-                    ( { model | error = "Please enter in an Username" }, Cmd.none)
-            else if model.password == "" then
-                    ( { model | error = "Please enter in a Password" }, Cmd.none)
-            else
-                    ( { model | error = "Passwords don't Match" }, Cmd.none)
-
-        GotRegisterResponse result ->
-            case result of
-                Ok "RegisterFailed" ->
-                    ( { model | error = "Failed to Register" }, Cmd.none )
-
-                Ok _ ->
-                    ( model, load ("https://google.ca") )
-
-                Err error ->
-                    ( handleError model error, Cmd.none )
-
-
-
-passwordEncoder : Model -> JEncode.Value
-passwordEncoder model =
-    JEncode.object
-        [ ( "username"
-          , JEncode.string model.name
-          )
-        , ( "password"
-          , JEncode.string model.password
-          )
-        ]
-
-
-
-loginPost : Model -> Cmd Msg
-loginPost model =
-    Http.post
-        { url = rootUrl ++ "userauth/adduser/"
-        , body = Http.jsonBody <| passwordEncoder model
-        , expect = Http.expectString GotRegisterResponse
-        }
-
-
-
-handleError : Model -> Http.Error -> Model
-handleError model error =
-    case error of
-        Http.BadUrl url ->
-            { model | error = "bad url: " ++ url }
-
-        Http.Timeout ->
-            { model | error = "timeout" }
-
-        Http.NetworkError ->
-            { model | error = "network error" }
-
-        Http.BadStatus i ->
-            { model | error = "bad status " ++ String.fromInt i }
-
-        Http.BadBody body ->
-            { model | error = "bad body " ++ body }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

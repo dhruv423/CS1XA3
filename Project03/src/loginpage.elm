@@ -123,7 +123,7 @@ update msg model =
                     ( { model | error = "Incorrect Login Credentials. Try Again" }, Cmd.none )
 
                 Ok _ ->
-                    ( model, load ("https://google.ca") )
+                    ( model, load "index.html" )
 
                 Err error ->
                     ( handleError model error, Cmd.none )
