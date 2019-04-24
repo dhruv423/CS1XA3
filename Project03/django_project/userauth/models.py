@@ -16,7 +16,7 @@ class UserInfo(models.Model):
     # Information about User
     income = models.FloatField(default=0)
     expense = models.FloatField(default=0)
-    expenseType = models.CharField(max_length=60, blank = "True")
+    expenseType = models.CharField(max_length=60, blank = "True", default="Works from Django")
     loanAmount = models.FloatField(default=0)
     loanPeriod = models.FloatField(default=0)
     loanInterest = models.FloatField(default=0)

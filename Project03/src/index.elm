@@ -29,6 +29,7 @@ type Page = Overview
 type Msg = Show Page
      | LogOut
      | GetResponse (Result Http.Error String)
+     | UserInfoResponse (Result Http.Error UserInfo)
 
 init : () -> ( Model, Cmd Msg )
 init _ =
@@ -58,6 +59,14 @@ update msg model =
         LogOut ->
             (model, doLogOut)
 
+        UserInfoResponse result ->
+            case result of 
+                 Ok recievedInfo -> 
+                    ({ model | userInfo = recievedInfo }, Cmd.none )
+
+                 Err error -> 
+                    ( handleError model error , Cmd.none )
+
         GetResponse result ->
             case result of
                 Ok "NotAuth" ->
@@ -67,10 +76,10 @@ update msg model =
                     ( { model | error = "Logged Out"}, load "loginpage.html")
 
                 Ok "IsAuth" ->
-                    ( model, Cmd.none )
+                    ( model, getUserInfo )
                 
                 Ok _ ->
-                    ( model, Cmd.none )
+                    ( model, getUserInfo )
 
                 Err error ->
                     ( handleError model error, Cmd.none )
@@ -87,6 +96,13 @@ infoJsonD =
         (JDecode.field "loanamount" JDecode.float)
         (JDecode.field "loanperiod" JDecode.float)
         (JDecode.field "loaninterest" JDecode.float)
+
+getUserInfo : Cmd Msg
+getUserInfo =
+    Http.get 
+        { url = rootUrl ++ "userauth/getuserinfo/"
+        , expect = Http.expectJson UserInfoResponse infoJsonD
+        }
 
 getAuth : Cmd Msg
 getAuth =

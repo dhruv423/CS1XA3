@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.http import JsonResponse
 import json
 from .models import UserInfo
 
@@ -18,19 +19,17 @@ def add_user(request):
         user = authenticate(request, username=uname, password=passw)
         newUser.save()
         login(request,user)
-        print("LoggedIn")
+        
         return HttpResponse('LoggedIn')
 
     else:
-        print("RegisterFailed")
+        
         return HttpResponse('RegisterFailed')
 
 def is_auth(request):
     if request.user.is_authenticated:
-        print("IsAuth sent")
         return HttpResponse("IsAuth")
     else:
-        print("NotAuth sent")
         return HttpResponse("NotAuth")
 
 
@@ -49,15 +48,6 @@ def login_user(request):
     else:
         return HttpResponse('LoginFailed')
 
-"""def user_info(request):
-    serves content that is only available to a logged in user
-    print(request.user)
-    if not request.user.is_authenticated:
-        return HttpResponse("LoggedOut")
-    else:
-        print(request.user)
-        # do something only a logged in user can do
-        return HttpResponse("Hello " + request.user.first_name)"""
 
 def logout_user(request):
     logout(request)
