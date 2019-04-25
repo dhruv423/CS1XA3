@@ -23,7 +23,7 @@ Coming Soon
 **Backend (Django)**
 userauth app is used for user authentication related request.
 Many models such as ExpenseInfo, LoanInfo and built-in User
-ExpenseInfo and LoanInfo are Field.Choices which are Foreign Keys to the UserInfo
+ExpenseInfo and LoanInfo are Field.Choices which uses a Foreign Key Relationship
 
 
 
