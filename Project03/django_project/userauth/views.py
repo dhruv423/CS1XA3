@@ -15,7 +15,7 @@ def add_user(request):
     
     if uname != '':
         newUser = UserInfo.objects.create_user_info(username=uname,
-                                        password=passw, info = "info")
+                                        password=passw)
         user = authenticate(request, username=uname, password=passw)
         newUser.save()
         login(request,user)

@@ -22,7 +22,7 @@ rootUrl =
 type alias Model =  
     { pageL : Page, error : String, userInfo: UserInfo  }
 
-type Page = Overview
+type Page = Dashboard
     | ExpenseTracker
     | LoanTracker
 
@@ -33,7 +33,7 @@ type Msg = Show Page
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { pageL = Overview
+    ( { pageL = Dashboard
       , error = ""
       , userInfo  = { income = 0, expense = 0, expenseType = "Works from Elm", loanAmount = 0, loanPeriod = 0, loanInterest = 0}
       }
@@ -137,9 +137,58 @@ handleError model error =
             { model | error = "Bad Body " ++ body }
 
 
-overviewView : Model -> Html msg 
-overviewView model = div [] [text (model.userInfo.expenseType)]
+dashboardView : Model -> Html msg 
+dashboardView model = div [] 
+    [ ol [ class "breadcrumb" ]
+    [ li [ class "breadcrumb-item" ]
+                        [ a [ ]
+                            [ text "Dashboard" ]
+                        ]
+                    , li [ class "breadcrumb-item active" ]
+                        [ text "Works" ]
+                    ]
+    ]
 
+
+loantrackerView : Model -> Html msg 
+loantrackerView model = div [] 
+    [ ol [ class "breadcrumb" ]
+    [ li [ class "breadcrumb-item" ]
+                        [ a [ ]
+                            [ text "Loan Tracker" ]
+                        ]
+                    , li [ class "breadcrumb-item active" ]
+                        [ text "Works" ]
+                    ]
+                    , div []
+                    [ div [ class "card-header" ]
+                        [ i [ class "fas fa-chart-area" ]
+                            []
+                        , text " Area Chart Example"
+                        ]
+                    ]
+    ]
+
+expensetrackerView : Model -> Html msg 
+expensetrackerView model = div [] 
+    [ ol [ class "breadcrumb" ]
+    [ li [ class "breadcrumb-item" ]
+                        [ a [ ]
+                            [ text "Expense Tracker" ]
+                        ]
+                    , li [ class "breadcrumb-item active" ]
+                        [ text "Works" ]
+    ]
+                    , div [ class "card mb-3" ]
+                    [ div [ class "card-header" ]
+                        [ i [ class "fas fa-chart-area" ]
+                            []
+                        , text " Area Chart Example"
+                        ]
+                    ]
+    
+    ]
+    
 
 
 view : Model -> Html Msg
@@ -164,15 +213,15 @@ view model = div []
     , div [ id "wrapper" ]
         [ ul [ class "sidebar navbar-nav" ]
             [ li [ class "nav-item " ]
-                [ a [ class "nav-link", href "" ]
-                    [ i [ class "fas fa-fw fa-tachometer-alt" ]
+                [ a [ class "nav-link", Events.onClick (Show Dashboard) ]
+                    [ i [ class "fas fa-fw fa-tachometer-alt"]
                         []
                     , span []
                         [ text " Dashboard" ]
                     ]
                 ]
             , li [ class "nav-item dropdown" ]
-                [ a [ class "nav-link", href "" ]
+                [ a [ class "nav-link", Events.onClick (Show ExpenseTracker) ]
                     [ i [ class "fas fa-fw fa-folder" ]
                         []
                     , span []
@@ -180,7 +229,7 @@ view model = div []
                     ]
                 ]
             , li [ class "nav-item" ]
-                [ a [ class "nav-link", href "" ]
+                [ a [ class "nav-link" , Events.onClick (Show LoanTracker) ]
                     [ i [ class "fas fa-fw fa-chart-area" ]
                         []
                     , span []
@@ -190,40 +239,12 @@ view model = div []
             ]
         , div [ id "content-wrapper" ]
             [ div [ class "container-fluid" ]
-                [ ol [ class "breadcrumb" ]
-                    [ li [ class "breadcrumb-item" ]
-                        [ a [ ]
-                            [ text "Dashboard" ]
-                        ]
-                    , li [ class "breadcrumb-item active" ]
-                        [ text "Overview" ]
-                    ]
-                , div [ class "card mb-3" ]
-                    [ div [ class "card-header" ]
-                        [ i [ class "fas fa-chart-area" ]
-                            []
-                        , text " Area Chart Example"
-                        ]
-                    , div [ class "card-body" ]
-                        [ canvas [ attribute "height" "30", id "myAreaChart", attribute "width" "100%" ]
-                            []
-                        ]
-                    , div [ class "card-footer small text-muted" ]
-                        [ text "Updated yesterday at 11:59 PM" ]
-                    ]
-                , div [ class "card mb-3" ]
-                    [ div [ class "card-header" ]
-                        [ i [ class "fas fa-table" ]
-                            []
-                        , text " Data Table Example"
-                        ]
-                    , div [ class "card-body" ]
-                        [ canvas [ attribute "height" "30", id "myAreaChart", attribute "width" "100%" ]
-                            []
-                        ]                    
-                    , div [ class "card-footer small text-muted" ]
-                        [ text "Updated yesterday at 11:59 PM" ]
-                    ]
+                [ 
+                    case model.pageL of 
+                        Dashboard      -> dashboardView model 
+                        LoanTracker    -> loantrackerView model 
+                        ExpenseTracker -> expensetrackerView model
+                        
                 ]
             , text "      "
             , footer [ class "sticky-footer" ]
