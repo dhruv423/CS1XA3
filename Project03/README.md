@@ -9,7 +9,8 @@ Coming Soon
 ## Features
 
 **Client Side**
-Coming Soon
+Use of GraphicSVG and Html.Events
+Created graphs from the shapes in Graphics SVG
 
 **Backend (Django)**
 userauth app is used for user authentication related request.
