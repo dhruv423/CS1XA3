@@ -30,9 +30,9 @@ This is the final project pertaining to this course. FinTrack is an online finan
 
 **Backend (Django)**
 
-userauth app is used for user authentication related request - Login page for the user to get a custom dashboard, register page to create many users
-Models such as ExpenseInfo, LoanInfo, UserInfo and built-in User
-ExpenseInfo and LoanInfo are Foreign Key Relationships with the UserInfo object
+* userauth app is used for user authentication related request - Login page for the user to get a custom dashboard, register page to create many users
+* Models such as ExpenseInfo, LoanInfo, UserInfo and built-in User
+* ExpenseInfo and LoanInfo are Foreign Key Relationships with the UserInfo object
 
 
 
