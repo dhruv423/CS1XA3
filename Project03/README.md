@@ -9,7 +9,8 @@ This is the final project pertaining to this course. FinTrack is an online finan
 * Verify that you have the environment name in the front of the line in terminal 
 * Navigate back `cd ..` 
 * Install the required packages to run this app `pip install -r requirements.txt` 
-* After that is done downloading, go to the `django_project` folder `cd CS1XA3/Project03/django_project` 
+* After that is done downloading, go to the `django_project` folder `cd CS1XA3/Project03/django_project`
+* Collect the static files for running the server `python3 manage.py collectstatic`
 * Run the Django server `python3 manage.py runserver localhost:10008` 
 * Open up your browser and go to [https://mac1xa3.ca/e/bhavsd1/static/project03.html](https://mac1xa3.ca/e/bhavsd1/static/project03.html)
 * Now create an account and play around with the app!
