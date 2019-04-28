@@ -4,7 +4,7 @@ This is the final project pertaining to this course. FinTrack is an online finan
 ## Setting Up
 
 * Clone this repository by either downloading it or `git clone https://github.com/bhavsd1/CS1XA3.git` to your prefered location 
-* Create a Python Virtual Environment by `python3 -m venv envirname` in the prefered location 
+* Create a Python Virtual Environment by `python3 -m venv envirname` in the same location as repo
 * Go in the virtual environment `cd envirname` and start it up `source bin/activate` 
 * Verify that you have the environment name in the front of the line in terminal 
 * Navigate back `cd ..` 
