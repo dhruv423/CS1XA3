@@ -19,14 +19,14 @@ This is the final project pertaining to this course. FinTrack is an online finan
 
 **Client Side**
 
-Use of GraphicSVG and Html.Events
-Created graphs from the shapes in Graphics SVG
-Login Page
-Register Page 
-Adds Expense Info to the database to keep track 
-Adds Loan Info to the database to keep track of principal amount and the interest build up
-Usage of JSON Encode to encode password, username, LoanInfo and ExpenseInfo
-Usage of JSON Decode to decode the information recieved from the database
+* Use of GraphicSVG and Html.Events
+* Created graphs from the shapes in Graphics SVG
+* Login Page
+* Register Page 
+* Adds Expense Info to the database to keep track 
+* Adds Loan Info to the database to keep track of principal amount and the interest build up
+* Usage of JSON Encode to encode password, username, LoanInfo and ExpenseInfo
+* Usage of JSON Decode to decode the information recieved from the database
 
 **Backend (Django)**
 
