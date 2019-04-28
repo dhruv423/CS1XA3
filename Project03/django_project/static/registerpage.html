@@ -5036,7 +5036,7 @@ var author$project$Main$passwordEncoder = function (model) {
 				elm$json$Json$Encode$string(model.password))
 			]));
 };
-var author$project$Main$rootUrl = 'http://localhost:8000/';
+var author$project$Main$rootUrl = 'https://mac1xa3.ca/e/bhavsd1/';
 var elm$core$Basics$composeR = F3(
 	function (f, g, x) {
 		return g(
@@ -6199,16 +6199,16 @@ var author$project$Main$update = F2(
 			default:
 				var result = msg.a;
 				if (result.$ === 'Ok') {
-					if (result.a === 'RegisterFailed') {
+					if (result.a === 'Exists') {
 						return _Utils_Tuple2(
 							_Utils_update(
 								model,
-								{error: 'Failed to Register'}),
+								{error: 'Username Already Exists'}),
 							elm$core$Platform$Cmd$none);
 					} else {
 						return _Utils_Tuple2(
 							model,
-							elm$browser$Browser$Navigation$load('index.html'));
+							elm$browser$Browser$Navigation$load('project03.html'));
 					}
 				} else {
 					var error = result.a;
@@ -6590,7 +6590,7 @@ var author$project$Main$view = function (model) {
 														_List_fromArray(
 															[
 																elm$html$Html$Attributes$class('txt2'),
-																elm$html$Html$Attributes$href('#')
+																elm$html$Html$Attributes$href('project03.html')
 															]),
 														_List_fromArray(
 															[

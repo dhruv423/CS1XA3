@@ -16,7 +16,7 @@ main = Browser.element { init = init
                        }
 
 rootUrl =
-    "http://localhost:8000/"
+    "https://mac1xa3.ca/e/bhavsd1/"
 
 -- Model 
 type alias Model =  
@@ -85,7 +85,7 @@ view model = div []
                         , div [ class "text-center p-t-115" ]
                         [ span [ class "txt1" ]
                         [ text "Don’t have an account?" ]
-                        , a [ class "txt2", href "#" ]
+                        , a [ class "txt2", href "registerpage.html" ]
                         [ text " Sign Up" ]
                         ]
                     ]
@@ -123,7 +123,7 @@ update msg model =
                     ( { model | error = "Incorrect Login Credentials. Try Again" }, Cmd.none )
 
                 Ok _ ->
-                    ( model, load "index.html" )
+                    ( model, load "mainpage.html" )
 
                 Err error ->
                     ( handleError model error, Cmd.none )

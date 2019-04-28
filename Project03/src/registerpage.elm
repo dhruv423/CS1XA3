@@ -16,7 +16,7 @@ main = Browser.element { init = init
                        }
 
 rootUrl =
-    "http://localhost:8000/"
+    "https://mac1xa3.ca/e/bhavsd1/"
 
 -- Model 
 type alias Model =  
@@ -98,7 +98,7 @@ view model = div []
                         , div [ class "text-center p-t-115" ]
                         [ span [ class "txt1" ]
                         [ text "Already have an account?" ]
-                        , a [ class "txt2", href "#" ]
+                        , a [ class "txt2", href "project03.html" ]
                         [ text " Log In" ]
                         ]
                     ]
@@ -107,7 +107,7 @@ view model = div []
         ]
     ]
 
-
+-- Update
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -132,17 +132,17 @@ update msg model =
 
         GotRegisterResponse result ->
             case result of
-                Ok "RegisterFailed" ->
-                    ( { model | error = "Failed to Register" }, Cmd.none )
+                Ok "Exists" ->
+                    ( { model | error = "Username Already Exists" }, Cmd.none )
 
                 Ok _ ->
-                    ( model, load ("index.html") )
+                    ( model, load ("project03.html") )
 
                 Err error ->
                     ( handleError model error, Cmd.none )
 
 
-
+-- Encoder for register credentials
 passwordEncoder : Model -> JEncode.Value
 passwordEncoder model =
     JEncode.object
@@ -155,7 +155,7 @@ passwordEncoder model =
         ]
 
 
-
+-- Function to Send encoded object
 loginPost : Model -> Cmd Msg
 loginPost model =
     Http.post
@@ -165,7 +165,7 @@ loginPost model =
         }
 
 
-
+-- Function to Handle Error
 handleError : Model -> Http.Error -> Model
 handleError model error =
     case error of

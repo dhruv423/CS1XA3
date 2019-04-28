@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+root = 'e/bhavsd1/'
 urlpatterns = [
-    path('userauth/', include('userauth.urls')),
+    path(root + 'userauth/', include('userauth.urls')),
 ]

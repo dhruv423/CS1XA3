@@ -8,5 +8,6 @@ urlpatterns = [
     path('isauth/', views.is_auth , name = 'userauth-is_auth') ,
     path('logoutuser/', views.logout_user , name = 'userauth-logout_user') ,
     path('getuserinfo/', views.get_user_info , name = 'userauth-get_user_info') ,
+    path('saveuserinfo/', views.save_user_info , name = 'userauth-save_user_info') ,
 ]
 
